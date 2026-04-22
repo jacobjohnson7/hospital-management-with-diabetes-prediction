@@ -1,0 +1,213 @@
+{% load static %}
+<html>
+<head>
+    <title>Patient Registration</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            margin: 0;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #2193b0;
+            padding: 15px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            opacity: 0.9;
+        }
+
+        .home-btn {
+            position: absolute;
+            top: 70px;
+            left: 15px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #2193b0;
+            font-weight: bold;
+        }
+
+        /* Form Card */
+        .container {
+            width: 420px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            border-color: #2193b0;
+            box-shadow: 0 0 5px rgba(33,147,176,0.4);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #2193b0, #6dd5ed);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* Table Section */
+        .table-container {
+            width: 90%;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #2193b0;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f5f5f5;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <span>MedFlow</span>
+
+    <!-- Logout Button -->
+    <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+</div>
+
+<a href="{% url 'home' %}" class="home-btn">🏠 Home</a>
+
+<!-- FORM -->
+<div class="container">
+    <h2>Patient Registration</h2>
+    <h2>WELCOME__{{request.user.username}}__</h2>
+    
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Patient Name</label>
+        <input type="text" name="patient_name" placeholder="Enter full name" required>
+
+        <label>Age</label>
+        <input type="number" name="age" placeholder="Enter age" required>
+
+        <label>Appointment Date</label>
+        <input type="date" name="appointment_date" required>
+
+        <label>Select Doctor</label>
+        <select name="doctor_name" required>
+            <option value="">-- Choose Doctor --</option>
+            {% for d in Doctor %}
+                <option value="{{ d.id }}">
+                    {{ d.doctor_name }} ({{ d.specialization }})
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Register Patient</button>
+    </form>
+</div>
+
+<!-- TABLE -->
+{% if key %}
+<div class="table-container">
+    <div class="title">Registered Patients</div>
+
+    <table>
+        <tr>
+            <th>Patient Name</th>
+            <th>Age</th>
+            <th>Appointment</th>
+            <th>Doctor</th>
+            <th>Specialization</th>
+        </tr>
+
+        {% for i in key %}
+        <tr>
+            <td>{{ i.patient_name }}</td>
+            <td>{{ i.age }}</td>
+            <td>{{ i.appointment_date }}</td>
+            <td>{{ i.doctor.doctor_name }}</td>
+            <td>{{ i.doctor.specialization }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endif %}
+
+</body>
+</html>

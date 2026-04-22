@@ -1,0 +1,247 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedFlow</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            /* Deep, modern animated gradient background */
+            background: linear-gradient(135deg, #091221, #132440, #1b0f1c);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #ffffff;
+            min-height: 100vh;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            color: #ffffff !important;
+            font-weight: 700;
+            font-size: 24px;
+            letter-spacing: 0px;
+        }
+
+        .navbar-brand i { 
+            color: #ff4b2b; 
+            margin-right: 8px; 
+            font-size: 26px;
+        }
+
+        /* Main Content */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 60px;
+            font-weight: 700;
+            font-size: 46px;
+            text-align: center;
+            letter-spacing: -1px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .card-container {
+            display: flex;
+            gap: 35px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+        }
+
+        /* Premium Glass Cards */
+        .card-box {
+            width: 270px;
+            height: 290px;
+            border-radius: 24px;
+            padding: 40px 25px;
+            text-align: center;
+            color: white;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Glowing Top Border on Hover */
+        .card-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: transparent;
+            transition: 0.4s ease;
+        }
+
+        .card-box:hover {
+            transform: translateY(-15px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+
+        /* Specific Hover Colors */
+        .doctor:hover::before { background: linear-gradient(90deg, #36d1dc, #5b86e5); box-shadow: 0 0 20px #36d1dc; }
+        .patient:hover::before { background: linear-gradient(90deg, #ff7e5f, #feb47b); box-shadow: 0 0 20px #ff7e5f; }
+        .management:hover::before { background: linear-gradient(90deg, #43cea2, #185a9d); box-shadow: 0 0 20px #43cea2; }
+        .prediction:hover::before { background: linear-gradient(90deg, #ff416c, #ff4b2b); box-shadow: 0 0 20px #ff416c; }
+
+        /* Gradient Icons */
+        .icon {
+            font-size: 56px;
+            margin-bottom: 20px;
+            transition: 0.4s ease;
+        }
+
+        .doctor .icon { background: -webkit-linear-gradient(45deg, #36d1dc, #5b86e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .patient .icon { background: -webkit-linear-gradient(45deg, #ff7e5f, #feb47b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .management .icon { background: -webkit-linear-gradient(45deg, #43cea2, #185a9d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .prediction .icon { background: -webkit-linear-gradient(45deg, #ff416c, #ff4b2b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Micro-animation on Icon */
+        .card-box:hover .icon {
+            transform: scale(1.15) translateY(-5px);
+        }
+
+        h4 {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 22px;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #a0abba;
+            font-weight: 300;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        a { text-decoration: none; display: block; }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: #7b8698;
+            padding: 20px;
+            font-size: 14px;
+            font-weight: 400;
+            background: rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <span class="navbar-brand"><i class="bi bi-hospital"></i> MedFlow</span>
+    </div>
+</nav>
+
+<!-- Main -->
+<div class="main-container">
+
+    <h1>MedFlow</h1>
+
+    <div class="card-container">
+
+        <!-- Doctors -->
+        <a href="{% url 'doc' %}">
+            <div class="card-box doctor">
+                <div class="icon"><i class="bi bi-person-badge-fill"></i></div>
+                <h4>Doctors</h4>
+                <p>Manage doctor records safely and securely</p>
+            </div>
+        </a>
+
+        <!-- Patients -->
+        <a href="{% url 'patientregister' %}">
+            <div class="card-box patient">
+                <div class="icon"><i class="bi bi-person-plus-fill"></i></div>
+                <h4>Patients</h4>
+                <p>Register and onboard new patient details</p>
+            </div>
+        </a>
+
+        <!-- Patient Management -->
+        <a href="{% url 'patient_management' %}">
+            <div class="card-box management">
+                <div class="icon"><i class="bi bi-clipboard2-data-fill"></i></div>
+                <h4>Patient Management</h4>
+                <p>Advanced filtering & active appointment handling</p>
+            </div>
+        </a>
+
+        <!-- Check Diabetes -->
+        <a href="{% url 'check_diabetes' %}">
+            <div class="card-box prediction">
+                <div class="icon"><i class="bi bi-heart-pulse-fill"></i></div>
+                <h4>Diabetes Check</h4>
+                <p>AI-Powered ML prediction diagnostics</p>
+            </div>
+        </a>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    © 2026 MedFlow • Built with modern UI
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
