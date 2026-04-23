@@ -59,6 +59,18 @@
             font-size: 26px;
         }
 
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+            font-weight: 500;
+            margin-left: 15px;
+            transition: 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #ff4b2b !important;
+            transform: translateY(-2px);
+        }
+
         /* Main Content */
         .main-container {
             flex: 1;
@@ -183,9 +195,34 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-        <span class="navbar-brand"><i class="bi bi-hospital"></i> MedFlow</span>
+        <a class="navbar-brand" href="{% url 'home' %}"><i class="bi bi-hospital"></i> MedFlow</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'doc' %}">Doctors</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'patientregister' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'patientlogin' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'patient_management' %}">Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'check_diabetes' %}">Check Diabetes</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
 
