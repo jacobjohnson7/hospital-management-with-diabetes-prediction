@@ -38,8 +38,9 @@ def formm(request):
             doc_obj = Doctor.objects.get(id=d)
 
             patient.objects.create(patient_name=n, age=a,appointment_date=dd, doctor=doc_obj)
+            return render(request, 'form.html', {'success': True, 'Doctor': Doctor.objects.all()})
 
-    return render(request, 'form.html', {'key': patient.objects.all(),'Doctor': Doctor.objects.all()})
+    return render(request, 'form.html', {'Doctor': Doctor.objects.all()})
 
 
 def patient_management(request):
