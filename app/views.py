@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from app.models import Doctor,patient
+from app.models import Doctor, patient, Medicine
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
@@ -17,13 +17,22 @@ def home(request):
     return render(request, 'home.html')
 
 def doc(request):
+    if not request.session.get('is_admin'):
+        return redirect('adminlogin')
+
     if request.method=='POST':
         n=request.POST['doctor_name']
         s=request.POST['specialization']
-        data=Doctor(doctor_name=n,specialization=s)
+        p=request.POST.get('password')
+
+        if User.objects.filter(username=n).exists():
+            return HttpResponse("A doctor with this name already exists. Please choose a different name.")
+        
+        user = User.objects.create_user(username=n, password=p)
+        data=Doctor(user=user, doctor_name=n, specialization=s)
         data.save()
         return render(request,'index.html',{'key':Doctor.objects.all()})
-    return render(request,'index.html')
+    return render(request,'index.html', {'key': Doctor.objects.all()})
 
 @login_required
 def formm(request):
@@ -44,6 +53,9 @@ def formm(request):
 
 
 def patient_management(request):
+    if not request.session.get('is_admin'):
+        return redirect('adminlogin')
+
     doctors = Doctor.objects.all()
     doctor_id = request.GET.get('doctor')
 
@@ -127,3 +139,63 @@ def check_diabetes(request):
             result = f"Error during prediction: {str(e)}. Please ensure 'diabetes_model.pkl' is in the main project folder along with manage.py"
             
     return render(request, 'check_diabetes.html', {'result': result})
+
+def aboutus(request):
+    return render(request, 'aboutus.html')
+
+def contact(request):
+    if request.method == 'POST':
+        # Assuming form is submitted, show a simple success message
+        return render(request, 'contact.html', {'success': True})
+    return render(request, 'contact.html')
+
+def doctorlogin(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            # Check if user has an associated Doctor profile
+            if hasattr(user, 'doctor'):
+                auth_login(request, user)
+                return redirect('doctordashboard')
+            else:
+                return HttpResponse("Not an authorized doctor account.")
+        else:
+            return HttpResponse("Invalid Credentials")
+    return render(request, 'doctorlogin.html')
+
+@login_required
+def doctordashboard(request):
+    try:
+        doctor_profile = request.user.doctor
+        patients = patient.objects.filter(doctor=doctor_profile).order_by('appointment_date')
+        return render(request, 'doctordashboard.html', {'patients': patients, 'doctor': doctor_profile})
+    except Exception as e:
+        return HttpResponse("You do not have a doctor profile assigned. Please contact the administrator.")
+
+def pharmacy(request):
+    medicines = Medicine.objects.all()
+    return render(request, 'pharmacy.html', {'medicines': medicines})
+
+def adminlogin(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        if username == 'admin' and password == 'admin':
+            request.session['is_admin'] = True
+            return redirect('admindashboard')
+        else:
+            return HttpResponse("Invalid Admin Credentials")
+    return render(request, 'adminlogin.html')
+
+def admindashboard(request):
+    if not request.session.get('is_admin'):
+        return redirect('adminlogin')
+    return render(request, 'admindashboard.html')
+
+def adminlogout(request):
+    if 'is_admin' in request.session:
+        del request.session['is_admin']
+    return redirect('home')

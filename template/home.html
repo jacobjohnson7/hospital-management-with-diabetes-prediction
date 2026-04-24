@@ -565,8 +565,12 @@
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
                     <li class="nav-item"><a class="nav-link" href="#ai">AI Diagnostics</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'patient_management' %}">Appointments</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'patientregister' %}">Get Started</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'adminlogin' %}">Admin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'patientregister' %}">Registration</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'pharmacy' %}">Pharmacy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'aboutus' %}">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'doctorlogin' %}">Doctor Portal</a></li>
                 </ul>
                 <a href="{% url 'patientlogin' %}" class="btn-launch">Login</a>
             </div>
@@ -611,10 +615,10 @@
             <p class="subtitle">From staff records to AI-driven diagnostics — one cohesive platform.</p>
 
             <div class="features-grid">
-                <a href="{% url 'doc' %}" class="feature-card">
-                    <div class="feature-icon"><i class="bi bi-person-badge-fill"></i></div>
-                    <h4>Doctor Management</h4>
-                    <p>Register and organize your medical staff with complete records and role-based access.</p>
+                <a href="{% url 'pharmacy' %}" class="feature-card">
+                    <div class="feature-icon"><i class="bi bi-capsule"></i></div>
+                    <h4>Pharmacy Inventory</h4>
+                    <p>Browse our integrated digital pharmacy to view available medicines and pricing.</p>
                 </a>
                 
                 <a href="{% url 'patientregister' %}" class="feature-card">

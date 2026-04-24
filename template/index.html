@@ -161,6 +161,9 @@
                 <label>Specialization</label>
                 <input type="text" name="specialization" placeholder="Enter specialization" required>
 
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Create a login password" required>
+
                 <button type="submit">Add Doctor</button>
             </form>
         </div>
@@ -183,8 +186,7 @@
             </table>
         </div>
         {% endif %}
-        
-        <a href="{% url 'home' %}" class="back-link"><i class="bi bi-arrow-left"></i> Back to Home</a>
+        <a href="{% url 'admindashboard' %}" class="back-link"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
     </div>
 
     <footer>
